@@ -1,0 +1,12 @@
+#Please cut out the version you dont want!
+
+#Pex verision
+command /rank <player> <text>:
+    permission: op
+    trigger:
+        make console execute command "pex user %arg-1% group set %arg-2%"
+#Lp version
+command /rank <player> <text>:
+    permission: op
+    trigger:
+        make console execute command "lp user %arg-1% parent set %arg-2%"

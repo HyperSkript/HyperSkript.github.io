@@ -1,0 +1,15 @@
+# Made by Kakepy#5825 <o/
+ 
+command /strike <player>:
+    permission: op
+    trigger:
+        send " " to arg-1
+        send "&c&lYou have been given a strike by &c%player%&c&l! &7Talk to the Owner of this server about the strike." to arg-1
+        send " " to arg-1
+        send "&3&lSTAFF &8&l» &3%player% &bhas striked &3%arg-1%&b." to all players where [input has permission "staffchat"]
+        if arg-1 is set:
+            add 1 to {strikes.%arg-1%}
+            if {strikes.%arg-1%} is 5:
+                make player execute command "rank %arg-1% clear"
+                make player execute command "rank %arg-1% default"
+                set {strikes.%arg-1%} to 0
