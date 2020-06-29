@@ -1,12 +1,387 @@
-#Please cut out the version you dont want!
-
-#Pex verision
-command /rank <player> <text>:
+command /rank  <player> <text>:
     permission: op
     trigger:
-        make console execute command "pex user %arg-1% group set %arg-2%"
-#Lp version
-command /rank <player> <text>:
+        make player say "/lp user %arg-1% parent set %arg-2%"
+        send "&3&lSTAFF &8&l» &bYou've set &3%arg-1%&b's rank to &3%arg-2%&b."
+        send "&3&lSTAFF &8&l» &3%player% &bhas set &3%arg-1%&b's &brank to &3%arg-2%&b." to all players where [input has permission "staffchat"]
+ 
+command /temprank  <player> <text> <text>:
     permission: op
     trigger:
-        make console execute command "lp user %arg-1% parent set %arg-2%"
+        make player say "/lp user %arg-1% parent addtemp %arg-2% %arg-3%"
+        send "&3&lSTAFF &8&l» &bYou've set &3%arg-1%&b's rank to &3%arg-2%&b &7&o(TEMP)&b."
+        send "&3&lSTAFF &8&l» &3%player% &bhas set &3%arg-1%&b's &brank to &3%arg-2% &7&o(TEMP)&b." to all players where [input has permission "staffchat"]
+ 
+command /staffranks:
+    permission: essentials.spawn
+    trigger:
+        send "&6&lRanks &e&lAre&e.&6.&e."
+        send "&8[&5&lTrainee&8] &8[&d&lHelper&8] &8[&b&lBuilder&8] &8[&2&lMod&8] &8[&2&lSr.Mod&8] &8[&9&lAdmin&8]"
+        send "&8[&b&lDeveloper&8] &8[&c&lManager&8] &8[&e&lHead-Manager&8] &8[&e&lOwner&8]"
+ 
+command /ranklist:
+    permission: essentials.spawn
+    trigger:
+        send "&6&lBuyCraft &e&lRanks &6Ar&ee&e.&6.&e."
+        send "&8[&aHero&8] &8[&dElite&8] &8[&bTitan&8]"
+        send "&8[&6Legend&8] &8[&eUltimate&8] &8[&6Sup&ereme&8]"
+ 
+command /grant [<offline player>]:
+    permission: op
+    trigger:
+        open virtual chest inventory with size 6 named "&b&lGrant" to player
+        format slot 14 of player with light blue stained clay named "&b&lDeveloper" to run [make player execute command "systemgrant5 %arg-1%"]  
+        format slot 10 of player with yellow stained clay named "&e&lOwner" to run [make player execute command "systemgrant1 %arg-1%"]  
+        format slot 11 of player with pink stained clay named "&d&lStaff-Manager" to run [make player execute command "systemgrant2 %arg-1%"]  
+        format slot 12 of player with orange stained clay named "&e&lHead-Manager" to run [make player execute command "systemgrant3 %arg-1%"]  
+        format slot 13 of player with red stained clay named "&c&lManager" to run [make player execute command "systemgrant4 %arg-1%"]  
+        format slot 15 of player with purple stained clay named "&9Admin" to run [make player execute command "systemgrant6 %arg-1%"]  
+        format slot 16 of player with green stained clay named "&2&lSr.Mod" to run [make player execute command "systemgrant8 %arg-1%"]  
+        format slot 19 of player with lime stained clay named "&a&lMod" to run [make player execute command "systemgrant7 %arg-1%"]  
+        format slot 20 of player with magenta stained clay named "&d&lHelper" to run [make player execute command "systemgrant9 %arg-1%"]  
+        format slot 21 of player with yellow stained clay named "&e&lTrainee" to run [make player execute command "systemgrant10 %arg-1%"]  
+        format slot 37 of player with red stained clay named "&c&lYou&f&lTube" to run [make player execute command "systemgrant11 %arg-1%"]  
+        format slot 38 of player with yellow stained clay named "&e&lFarmer" to run [make player execute command "systemgrant14 %arg-1%"]  
+        format slot 39 of player with light blue stained clay named "&b&lMerchant" to run [make player execute command "systemgrant15 %arg-1%"]  
+        format slot 22 of player with light blue stained clay named "&b&lBuilder" to run [make player execute command "systemgrant12 %arg-1%"]  
+        format slot 40 of player with lime stained clay named "&a&lCraftsman" to run [make player execute command "systemgrant16 %arg-1%"]  
+        format slot 41 of player with green stained clay named "&2&lKnight" to run [make player execute command "systemgrant18 %arg-1%"]  
+        format slot 42 of player with blue stained clay named "&9&lVassal" to run [make player execute command "systemgrant19 %arg-1%"]  
+        format slot 43 of player with red stained clay named "&c&lDuke" to run [make player execute command "systemgrant20 %arg-1%"]  
+        format slot 46 of player with light blue stained clay named "&b&lBaron" to run [make player execute command "systemgrant17 %arg-1% "]  
+        format slot 47 of player with red stained clay named "&4&lPrince" to run [make player execute command "systemgrant21 %arg-1%"]  
+        format slot 48 of player with purple stained clay named "&5&lTwitch" to run [make player execute command "systemgrant13 %arg-1%"]
+        format slot 0 of player with yellow stained clay named "&7Demote" to run [make player execute command "systemgrant111 %arg-1%"]
+        format slot 4 of player with paper named "&7Give %arg-1% a rank!" to be unstealable
+ 
+ 
+command /systemgrant1 [<offline player>]:
+    permission: op
+    permission message: &cYou cannot access our rank system.
+    trigger:
+        if arg-1 is not set:
+            send "&cPlease specify a player."
+        else:
+            open chest with 1 rows named "&cGrant %arg-1%" to player
+            wait 1 tick
+            format slot 3 of player with green wool named "&a1 hour" to close then run [make player execute command "temprank %arg-1% owner 1hour "]
+            format slot 4 of player with green wool named "Perm" to close then run [make player execute command "rank %arg-1% owner"]
+            format slot 2 of player with green wool named "&a1 min" to close then run [make player execute command "/temprank %arg-1% owner 1mins "]
+            format slot 5 of player with green wool named "&a1 day" to close then run [make player execute command "/temprank %arg-1% owner 1day "]
+            format slot 6 of player with red wool named "&cCancel" to close
+ 
+command /systemgrant2 [<offline player>]:
+    permission: op
+    permission message: &cYou cannot access our rank system.
+    trigger:
+        if arg-1 is not set:
+            send "&cPlease specify a player."
+        else:
+            open chest with 1 rows named "&cGrant %arg-1%" to player
+            wait 1 tick
+            format slot 3 of player with green wool named "&a1 hour" to close then run [make player execute command "/temprank %arg-1% staff-manager 1hour "]
+            format slot 4 of player with green wool named "Perm" to close then run [make player execute command "rank %arg-1% staff-manager"]
+            format slot 2 of player with green wool named "&a1 min" to close then run [make player execute command "/temprank %arg-1% staff-manager 1mins "]
+            format slot 5 of player with green wool named "&a1 day" to close then run [make player execute command "/temprank %arg-1% staff-manager 1day "]
+            format slot 6 of player with red wool named "&cCancel" to close
+ 
+command /systemgrant3 [<offline player>]:
+    permission: op
+    permission message: &cYou cannot access our rank system.
+    trigger:
+        if arg-1 is not set:
+            send "&cPlease specify a player."
+        else:
+            open chest with 1 rows named "&cGrant %arg-1%" to player
+            wait 1 tick
+            format slot 3 of player with green wool named "&a1 hour" to close then run [make player execute command "/temprank %arg-1% headmanager 1hour "]
+            format slot 4 of player with green wool named "Perm" to close then run [make player execute command "rank %arg-1% headmanager"]
+            format slot 2 of player with green wool named "&a1 min" to close then run [make player execute command "/temprank %arg-1% headmanager 1mins "]
+            format slot 5 of player with green wool named "&a1 day" to close then run [make player execute command "/temprank %arg-1% headmanager 1day "]
+            format slot 6 of player with red wool named "&cCancel" to close
+ 
+command /systemgrant4 [<offline player>]:
+    permission: op
+    permission message: &cYou cannot access our rank system.
+    trigger:
+        if arg-1 is not set:
+            send "&cPlease specify a player."
+        else:
+            open chest with 1 rows named "&cGrant %arg-1%" to player
+            wait 1 tick
+            format slot 3 of player with green wool named "&a1 hour" to close then run [make player execute command "/temprank %arg-1% manager 1hour "]
+            format slot 4 of player with green wool named "Perm" to close then run [make player execute command "rank %arg-1% manager"]
+            format slot 2 of player with green wool named "&a1 min" to close then run [make player execute command "/temprank %arg-1% manager 1mins "]
+            format slot 5 of player with green wool named "&a1 day" to close then run [make player execute command "/temprank %arg-1% manager 1day "]
+            format slot 6 of player with red wool named "&cCancel" to close
+ 
+command /systemgrant5 [<offline player>]:
+    permission: op
+    permission message: &cYou cannot access our rank system.
+    trigger:
+        if arg-1 is not set:
+            send "&cPlease specify a player."
+        else:
+            open chest with 1 rows named "&cGrant %arg-1%" to player
+            wait 1 tick
+            format slot 3 of player with green wool named "&a1 hour" to close then run [make player execute command "/temprank %arg-1% dev 1hour "]
+            format slot 4 of player with green wool named "Perm" to close then run [make player execute command "rank %arg-1% dev"]
+            format slot 2 of player with green wool named "&a1 min" to close then run [make player execute command "/temprank %arg-1% dev 1mins "]
+            format slot 5 of player with green wool named "&a1 day" to close then run [make player execute command "/temprank %arg-1% dev 1day "]
+            format slot 6 of player with red wool named "&cCancel" to close
+ 
+command /systemgrant6 [<offline player>]:
+    permission: op
+    permission message: &cYou cannot access our rank system.
+    trigger:
+        if arg-1 is not set:
+            send "&cPlease specify a player."
+        else:
+            open chest with 1 rows named "&cGrant %arg-1%" to player
+            wait 1 tick
+            format slot 3 of player with green wool named "&a1 hour" to close then run [make player execute command "/temprank %arg-1% admin 1hour "]
+            format slot 4 of player with green wool named "Perm" to close then run [make player execute command "rank %arg-1% admin"]
+            format slot 2 of player with green wool named "&a1 min" to close then run [make player execute command "/temprank %arg-1% admin 1mins "]
+            format slot 5 of player with green wool named "&a1 day" to close then run [make player execute command "/temprank %arg-1% admin 1day "]
+            format slot 6 of player with red wool named "&cCancel" to close
+ 
+command /systemgrant7 [<offline player>]:
+    permission: op
+    permission message: &cYou cannot access our rank system.
+    trigger:
+        if arg-1 is not set:
+            send "&cPlease specify a player."
+        else:
+            open chest with 1 rows named "&cGrant %arg-1%" to player
+            wait 1 tick
+            format slot 3 of player with green wool named "&a1 hour" to close then run [make player execute command "/temprank %arg-1% mod 1hour "]
+            format slot 4 of player with green wool named "Perm" to close then run [make player execute command "rank %arg-1% mod"]
+            format slot 2 of player with green wool named "&a1 min" to close then run [make player execute command "/temprank %arg-1% mod 1mins "]
+            format slot 5 of player with green wool named "&a1 day" to close then run [make player execute command "/temprank %arg-1% mod 1day "]
+            format slot 6 of player with red wool named "&cCancel" to close
+ 
+command /systemgrant8 [<offline player>]:
+    permission: op
+    permission message: &cYou cannot access our rank system.
+    trigger:
+        if arg-1 is not set:
+            send "&cPlease specify a player."
+        else:
+            open chest with 1 rows named "&cGrant %arg-1%" to player
+            wait 1 tick
+            format slot 3 of player with green wool named "&a1 hour" to close then run [make player execute command "/temprank %arg-1% sr.mod 1hour "]
+            format slot 4 of player with green wool named "Perm" to close then run [make player execute command "rank %arg-1% sr.mod"]
+            format slot 2 of player with green wool named "&a1 min" to close then run [make player execute command "/temprank %arg-1% sr.mod 1mins "]
+            format slot 5 of player with green wool named "&a1 day" to close then run [make player execute command "/temprank %arg-1% sr.mod 1day "]
+            format slot 6 of player with red wool named "&cCancel" to close
+ 
+command /systemgrant9 [<offline player>]:
+    permission: op
+    permission message: &cYou cannot access our rank system.
+    trigger:
+        if arg-1 is not set:
+            send "&cPlease specify a player."
+        else:
+            open chest with 1 rows named "&cGrant %arg-1%" to player
+            wait 1 tick
+            format slot 3 of player with green wool named "&a1 hour" to close then run [make player execute command "/temprank %arg-1% helper 1hour "]
+            format slot 4 of player with green wool named "Perm" to close then run [make player execute command "rank %arg-1% helper"]
+            format slot 2 of player with green wool named "&a1 min" to close then run [make player execute command "/temprank %arg-1% helper 1mins "]
+            format slot 5 of player with green wool named "&a1 day" to close then run [make player execute command "/temprank %arg-1% helper 1day "]
+            format slot 6 of player with red wool named "&cCancel" to close
+ 
+command /systemgrant10 [<offline player>]:
+    permission: op
+    permission message: &cYou cannot access our rank system.
+    trigger:
+        if arg-1 is not set:
+            send "&cPlease specify a player."
+        else:
+            open chest with 1 rows named "&cGrant %arg-1%" to player
+            wait 1 tick
+            format slot 3 of player with green wool named "&a1 hour" to close then run [make player execute command "/temprank %arg-1% trainee 1hour "]
+            format slot 4 of player with green wool named "Perm" to close then run [make player execute command "rank %arg-1% trainee"]
+            format slot 2 of player with green wool named "&a1 min" to close then run [make player execute command "/temprank %arg-1% trainee 1mins "]
+            format slot 5 of player with green wool named "&a1 day" to close then run [make player execute command "/temprank %arg-1% trainee 1day "]
+            format slot 6 of player with red wool named "&cCancel" to close
+ 
+command /systemgrant111 [<offline player>]:
+    permission: op
+    permission message: &cYou cannot access our rank system.
+    trigger:
+        if arg-1 is not set:
+            send "&cPlease specify a player."
+        else:
+            open chest with 1 rows named "&7Demotion %arg-1%" to player
+            wait 1 tick
+            format slot 3 of player with green wool named "&aYes" to close then run [make player execute command "/rank %arg-1% default"]
+            format slot 5 of player with red wool named "&cCancel" to close
+ 
+command /systemgrant11 [<offline player>]:
+    permission: op
+    permission message: &cYou cannot access our rank system.
+    trigger:
+        if arg-1 is not set:
+            send "&cPlease specify a player."
+        else:
+            open chest with 1 rows named "&cGrant %arg-1%" to player
+            wait 1 tick
+            format slot 3 of player with green wool named "&a1 hour" to close then run [make player execute command "/temprank %arg-1% yt 1hour "]
+            format slot 4 of player with green wool named "Perm" to close then run [make player execute command "rank %arg-1% yt"]
+            format slot 2 of player with green wool named "&a1 min" to close then run [make player execute command "/temprank %arg-1% yt 1mins "]
+            format slot 5 of player with green wool named "&a1 day" to close then run [make player execute command "/temprank %arg-1% yt 1day "]
+            format slot 6 of player with red wool named "&cCancel" to close
+ 
+command /systemgrant12 [<offline player>]:
+    permission: op
+    permission message: &cYou cannot access our rank system.
+    trigger:
+        if arg-1 is not set:
+            send "&cPlease specify a player."
+        else:
+            open chest with 1 rows named "&cGrant %arg-1%" to player
+            wait 1 tick
+            format slot 3 of player with green wool named "&a1 hour" to close then run [make player execute command "/temprank %arg-1% builder 1hour"]
+            format slot 4 of player with green wool named "Perm" to close then run [make player execute command "rank %arg-1% builder"]
+            format slot 2 of player with green wool named "&a1 min" to close then run [make player execute command "/temprank %arg-1% builder 1mins "]
+            format slot 5 of player with green wool named "&a1 day" to close then run [make player execute command "/temprank %arg-1% builder 1day "]
+            format slot 6 of player with red wool named "&cCancel" to close
+ 
+ 
+command /systemgrant13 [<offline player>]:
+    permission: op
+    permission message: &cYou cannot access our rank system.
+    trigger:
+        if arg-1 is not set:
+            send "&cPlease specify a player."
+        else:
+            open chest with 1 rows named "&cGrant %arg-1%" to player
+            wait 1 tick
+            format slot 3 of player with green wool named "&a1 hour" to close then run [make player execute command "/temprank %arg-1% tw 1hour"]
+            format slot 4 of player with green wool named "Perm" to close then run [make player execute command "rank %arg-1% tw"]
+            format slot 2 of player with green wool named "&a1 min" to close then run [make player execute command "/temprank %arg-1% tw 1mins "]
+            format slot 5 of player with green wool named "&a1 day" to close then run [make player execute command "/temprank %arg-1% tw 1day "]
+            format slot 6 of player with red wool named "&cCancel" to close
+ 
+command /systemgrant14 [<offline player>]:
+    permission: op
+    permission message: &cYou cannot access our rank system.
+    trigger:
+        if arg-1 is not set:
+            send "&cPlease specify a player."
+        else:
+            open chest with 1 rows named "&cGrant %arg-1%" to player
+            wait 1 tick
+            format slot 3 of player with green wool named "&a1 hour" to close then run [make player execute command "/temprank %arg-1% farmer 1hour"]
+            format slot 4 of player with green wool named "Perm" to close then run [make player execute command "rank %arg-1% farmer"]
+            format slot 2 of player with green wool named "&a1 min" to close then run [make player execute command "/temprank %arg-1% farmer 1mins "]
+            format slot 5 of player with green wool named "&a1 day" to close then run [make player execute command "/temprank %arg-1% farmer 1day "]
+            format slot 6 of player with red wool named "&cCancel" to close
+ 
+ 
+command /systemgrant15 [<offline player>]:
+    permission: op
+    permission message: &cYou cannot access our rank system.
+    trigger:
+        if arg-1 is not set:
+            send "&cPlease specify a player."
+        else:
+            open chest with 1 rows named "&cGrant %arg-1%" to player
+            wait 1 tick
+            format slot 3 of player with green wool named "&a1 hour" to close then run [make player execute command "/temprank %arg-1% Merchant 1hour"]
+            format slot 4 of player with green wool named "Perm" to close then run [make player execute command "rank %arg-1% merchant"]
+            format slot 2 of player with green wool named "&a1 min" to close then run [make player execute command "/temprank %arg-1% merchant 1mins "]
+            format slot 5 of player with green wool named "&a1 day" to close then run [make player execute command "/temprank %arg-1% merchant 1day "]
+            format slot 6 of player with red wool named "&cCancel" to close
+ 
+ 
+command /systemgrant16 [<offline player>]:
+    permission: op
+    permission message: &cYou cannot access our rank system.
+    trigger:
+        if arg-1 is not set:
+            send "&cPlease specify a player."
+        else:
+            open chest with 1 rows named "&cGrant %arg-1%" to player
+            wait 1 tick
+            format slot 3 of player with green wool named "&a1 hour" to close then run [make player execute command "/temprank %arg-1% craftsman 1hour"]
+            format slot 4 of player with green wool named "Perm" to close then run [make player execute command "rank %arg-1% craftsman"]
+            format slot 2 of player with green wool named "&a1 min" to close then run [make player execute command "/temprank %arg-1% craftsman 1mins "]
+            format slot 5 of player with green wool named "&a1 day" to close then run [make player execute command "/temprank %arg-1% craftsman 1day "]
+            format slot 6 of player with red wool named "&cCancel" to close
+ 
+ 
+command /systemgrant17 [<offline player>]:
+    permission: op
+    permission message: &cYou cannot access our rank system.
+    trigger:
+        if arg-1 is not set:
+            send "&cPlease specify a player."
+        else:
+            open chest with 1 rows named "&cGrant %arg-1%" to player
+            wait 1 tick
+            format slot 3 of player with green wool named "&a1 hour" to close then run [make player execute command "/temprank %arg-1% baron 1hour"]
+            format slot 4 of player with green wool named "Perm" to close then run [make player execute command "rank %arg-1% baron"]
+            format slot 2 of player with green wool named "&a1 min" to close then run [make player execute command "/temprank %arg-1% baron 1mins "]
+            format slot 5 of player with green wool named "&a1 day" to close then run [make player execute command "/temprank %arg-1% baron 1day "]
+            format slot 6 of player with red wool named "&cCancel" to close
+ 
+command /systemgrant18 [<offline player>]:
+    permission: op
+    permission message: &cYou cannot access our rank system.
+    trigger:
+        if arg-1 is not set:
+            send "&cPlease specify a player."
+        else:
+            open chest with 1 rows named "&cGrant %arg-1%" to player
+            wait 1 tick
+            format slot 3 of player with green wool named "&a1 hour" to close then run [make player execute command "/temprank %arg-1% knight 1hour"]
+            format slot 4 of player with green wool named "Perm" to close then run [make player execute command "rank %arg-1% knight"]
+            format slot 2 of player with green wool named "&a1 min" to close then run [make player execute command "/temprank %arg-1% knight 1mins "]
+            format slot 5 of player with green wool named "&a1 day" to close then run [make player execute command "/temprank %arg-1% knight 1day "]
+            format slot 6 of player with red wool named "&cCancel" to close
+ 
+command /systemgrant19 [<offline player>]:
+    permission: op
+    permission message: &cYou cannot access our rank system.
+    trigger:
+        if arg-1 is not set:
+            send "&cPlease specify a player."
+        else:
+            open chest with 1 rows named "&cGrant %arg-1%" to player
+            wait 1 tick
+            format slot 3 of player with green wool named "&a1 hour" to close then run [make player execute command "/temprank %arg-1% duke 1hour"]
+            format slot 4 of player with green wool named "Perm" to close then run [make player execute command "rank %arg-1% duke"]
+            format slot 2 of player with green wool named "&a1 min" to close then run [make player execute command "/temprank %arg-1% duke 1mins "]
+            format slot 5 of player with green wool named "&a1 day" to close then run [make player execute command "/temprank %arg-1% duke 1day "]
+            format slot 6 of player with red wool named "&cCancel" to close
+ 
+command /systemgrant20 [<offline player>]:
+    permission: op
+    permission message: &cYou cannot access our rank system.
+    trigger:
+        if arg-1 is not set:
+            send "&cPlease specify a player."
+        else:
+            open chest with 1 rows named "&cGrant %arg-1%" to player
+            wait 1 tick
+            format slot 3 of player with green wool named "&a1 hour" to close then run [make player execute command "/temprank %arg-1% vassal 1hour"]
+            format slot 4 of player with green wool named "Perm" to close then run [make player execute command "rank %arg-1% vassal"]
+            format slot 2 of player with green wool named "&a1 min" to close then run [make player execute command "/temprank %arg-1% vassal 1min"]
+            format slot 5 of player with green wool named "&a1 day" to close then run [make player execute command "/temprank %arg-1% vassal 1day "]
+            format slot 6 of player with red wool named "&cCancel" to close
+ 
+command /systemgrant21 [<offline player>]:
+    permission: op
+    permission message: &cYou cannot access our rank system.
+    trigger:
+        if arg-1 is not set:
+            send "&cPlease specify a player."
+        else:
+            open chest with 1 rows named "&cGrant %arg-1%" to player
+            wait 1 tick
+            format slot 3 of player with green wool named "&a1 hour" to close then run [make player execute command "/temprank %arg-1% Prince 1hour"]
+            format slot 4 of player with green wool named "Perm" to close then run [make player execute command "rank %arg-1% Prince"]
+            format slot 2 of player with green wool named "&a1 min" to close then run [make player execute command "/temprank %arg-1% Prince 1min"]
+            format slot 5 of player with green wool named "&a1 day" to close then run [make player execute command "/temprank %arg-1% Prince 1day "]
+            format slot 6 of player with red wool named "&cCancel" to close
