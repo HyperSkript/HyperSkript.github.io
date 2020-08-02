@@ -1,0 +1,269 @@
+options:
+	p: &7[&dStaff&7]
+ 
+command /staff [<text>]:
+	permission: staff.sk
+	permission message: {@p} &cNo Permissions!
+	trigger:
+		if arg 1 is not set:
+			if {staffmode.%player%} is true:
+				set {staffmode.%player%} to false
+				clear player's inventory
+				execute player command "v"
+				send "{@p} &eStaffMode is now &cdeactivated!"
+				restore inventory of player from {save.inv.%player%}
+				set player's level to {save.lvls.%player%}
+				set player's level progress to {save.lvls.%player%.progress}
+ 
+			if {staffmode.%player%} is false:
+				set {staffmode.%player%} to true
+				clear player's inventory
+				clear player's level progress
+				clear player's level
+				send "{@p} &eStaffMode is now &aactivated!"
+				set {save.inv.%player%} to the player's serialized inventory  
+				set {staffmode.%player%} to true
+				set {save.lvls.%player%} to player's level
+				set {save.lvls.%player%.progress} to level progress of the player
+				wait 1 second
+				set slot 0 of player's inventory to red wool block named "&c&l3"
+				set slot 1 of player's inventory to red wool block named "&c&l3"
+				set slot 2 of player's inventory to red wool block named "&c&l3"
+				set slot 3 of player's inventory to red wool block named "&c&l3"
+				set slot 4 of player's inventory to red wool block named "&c&l3"
+				set slot 5 of player's inventory to red wool block named "&c&l3"
+				set slot 6 of player's inventory to red wool block named "&c&l3"
+				set slot 7 of player's inventory to red wool block named "&c&l3"
+				set slot 8 of player's inventory to red wool block named "&c3&l"
+				wait 1 second
+				clear player's inventory
+				set slot 0 of player's inventory to orange wool block named "&6&l2"
+				set slot 1 of player's inventory to orange wool block named "&6&l2"
+				set slot 2 of player's inventory to orange wool block named "&6&l2"
+				set slot 3 of player's inventory to orange wool block named "&6&l2"
+				set slot 4 of player's inventory to orange wool block named "&6&l2"
+				set slot 5 of player's inventory to orange wool block named "&6&l2"
+				set slot 6 of player's inventory to orange wool block named "&6&l2"
+				set slot 7 of player's inventory to orange wool block named "&6&l2"
+				set slot 8 of player's inventory to orange wool block named "&6&l2"
+				wait 1 second
+				clear player's inventory
+				set slot 0 of player's inventory to light green wool block named "&a&l1"
+				set slot 1 of player's inventory to light green wool block named "&a&l1"
+				set slot 2 of player's inventory to light green wool block named "&a&l1"
+				set slot 3 of player's inventory to light green wool block named "&a&l1"
+				set slot 4 of player's inventory to light green wool block named "&a&l1"
+				set slot 5 of player's inventory to light green wool block named "&a&l1"
+				set slot 6 of player's inventory to light green wool block named "&a&l1"
+				set slot 7 of player's inventory to light green wool block named "&a&l1"
+				set slot 8 of player's inventory to light green wool block named "&a&l1"
+				wait 1 second
+				clear player's inventory
+				execute player command "v"
+				set slot 0 of player's inventory to feather named "&cUnVanish"
+				set slot 7 of player's inventory to clock named "&3Random TP"
+				set slot 1 of player's inventory to packed ice named "&bFreeze"
+				set slot 3 of player's inventory to lead named "&6Follow a player"
+				set slot 5 of player's inventory to book named "&aInspect Player"
+				set slot 8 of player's inventory to head named "&4Staff online"
+				set slot 4 of player's inventory to wooden sword of knockback 10 named "&5Test-AntiKB"
+ 
+command /freeze [<player>]:
+    permission: staff.sk
+    permission message: {@p} &cNo Permissions!
+    executable by: players
+    trigger:
+        if arg 1 is not set:
+            send "&7{@p} &cError: &7You must enter the name of the player for the command to be executed." to player
+        if arg 1 is set:
+            if {%arg-1%.ss} is true:
+                set {freezing.%arg 1%} to false
+                send "{@p} &7%arg-1% &ais no longer frozen!" to player
+                send "{@p} &aYou are no longer frozen!" to arg 1
+                set {%arg-1%.ss} to false
+                set the arg-1's walk speed to 1
+                delete {_ss.coords.%arg-1%}
+                stop trigger
+            if {%arg-1%.ss} is not set:
+                set {%arg-1%.ss} to true
+                add 1 to {frozencounter.%arg-1%}
+                send "{@p} &cThis player has been frozen %{frozencounter.%arg-1%}% times."
+                send "{@p} &7%arg-1% &ahas been frozen." to player
+                send "&f█████████" to arg 1
+                send "&f████&c█&f████" to arg 1
+                send "&f███&c█&0█&c█&f███" to arg 1
+                send "&f██&c█&6█&0█&6█&c█&f██" to arg 1
+                send "&f██&c█&6█&0█&6█&c█&f██ &eYou have been frozen by a staff member." to arg 1
+                send "&f██&c█&6█&0█&6█&c█&f██ &eIf you disconnect you will be &4&lBANNED&e." to arg 1
+                send "&f█&c█&6█████&c█&f█ &ePlease connect to our TeamSpeak." to arg 1
+                send "&c█&6███&0█&6███&c█ &7%{teamspeak}%" to arg 1
+                send "&c█████████" to arg 1
+                send "&f█████████" to arg 1
+                send "&cYou may not attack or get attacked by players whilst frozen." to arg 1
+                send "&cYou may not disconnect. If you do, you will be permanently banned." to arg 1
+                send "&cYou most likely will be asked to do a screenshare to prove you are not hacking." to arg 1
+                send "&cFailure to comply will result in a permanent ban." to arg 1
+                set the arg-1's walk speed to 0
+                set {_ss.coords.%arg-1%} to arg-1's location
+                set {freezing.%arg 1%} to true
+                stop trigger
+            if {%arg-1%.ss} is false:
+                add 1 to {frozencounter.%arg-1%}
+                send "{@p} &7%arg-1% &ahas been frozen." to players
+                send "{@p} &cThis player has been frozen %{frozencounter.%arg-1%}% time"
+                send "&f█████████" to arg 1
+                send "&f████&c█&f████" to arg 1
+                send "&f███&c█&0█&c█&f███" to arg 1
+                send "&f██&c█&6█&0█&6█&c█&f██" to arg 1
+                send "&f██&c█&6█&0█&6█&c█&f██ &eYou have been frozen by a staff member." to arg 1
+                send "&f██&c█&6█&0█&6█&c█&f██ &eIf you disconnect you will be &4&lBANNED&e." to arg 1
+                send "&f█&c█&6█████&c█&f█ &ePlease connect to our TeamSpeak." to arg 1
+                send "&c█&6███&0█&6███&c█ &7%{teamspeak}%" to arg 1
+                send "&c█████████" to arg 1
+                send "&f█████████" to arg 1
+                send "&cYou may not attack or get attacked by players whilst frozen." to arg 1
+                set {%arg-1%.ss} to true
+                set the arg-1's walk speed to 0
+                set {_ss.coords.%arg-1%} to arg-1's location
+                set {freezing.%arg 1%} to true
+                stop trigger
+ 
+on right click with packed ice:
+	if {staffmode.%player%} is true:
+		cancel event
+		execute player command "freeze %targeted entity%"
+ 
+on right click with clock:
+	if {staffmode.%player%} is true:
+		cancel event
+		set {_randomtp} to a random element out of {player::*}
+		teleport player to {_randomtp}
+		send "{@p} &7You have been randomly teleported to &e%{_randomtp}%&7!"
+ 
+on right click with lead:
+	if {staffmode.%player%} is true:
+		if player is holding a lead named "&6Follow a player":
+			if player has permission "Staff.staffmode":
+				if entity's target is a player:
+					set {_name} to "%target entity%" parsed as a player
+					send "{@p} &7You now follow &e%{_name}%"
+					make player ride {_name}
+ 
+on right click with book:
+	if {staffmode.%player%} is true:
+		if player is holding a book named "&aInspect Player":
+			if player has permission "Staff.staffmode":
+				if entity's target is a player:
+					set {_inventory} to "%target entity%" parsed as a player
+					send "{@p} &7You are now inspecting &e%{_inventory}%'s &7inventory!"
+					open the target player's inventory for the player
+ 
+ 
+on right click with a feather:
+	if {staffmode.%player%} is true:
+		if {vanish.%player%} is true:
+			set {vanish.%player%} to false
+			set slot 0 of player's inventory to feather named "&bVanish"
+			execute console command "v %player%"
+		else:
+			set {vanish.%player%} to true
+			set slot 0 of player's inventory to feather named "&cUnVanish"
+			execute console command "v %player%"
+	else:
+		cancel event
+ 
+on drop:
+	if {staffmode.%player%} is true:
+		cancel event
+		send "{@p} &cYou can't drop in staff mode!" to player
+	if {freezing.%player%} is true:
+		cancel event
+		send "{@p} &cYou can't drop while frozen!"
+ 
+on pickup:
+	if {staffmode.%player%} is true:
+		cancel event
+ 
+on chat:
+	if {staffmode.%player%} is true:
+		cancel event
+		send "{@p} &cYou can't chat in staff mode!"
+	if {freezing.%player%} is true:
+		cancel event
+		send "{@p} &cYou can't chat while frozen!"
+ 
+On hunger meter change:
+	if {staffmode.%player%} is true:
+		cancel event	
+ 
+on break:
+	if {staffmode.%player%} is true:
+		cancel event
+		send "{@p} &cYou can't break in staff mode!"
+	if {freezing.%player%} is true:
+		cancel event
+		send "{@p} &cYou can't break while frozen!"
+ 
+on place:
+	if {staffmode.%player%} is true:
+		cancel event
+		send "{@p} &cYou can't place in staff mode!"
+	if {freezing.%player%} is true:
+		cancel event
+		send "{@p} &cYou can't place while frozen!"
+ 
+ 
+on burn:
+	if {staffmode.%player%} is true:
+		cancel event
+ 
+on craft:
+	if {staffmode.%player%} is true:
+		cancel event
+		send "{@p} &cYou can't craft in staff mode!"
+	if {freezing.%player%} is true:
+		cancel event
+		send "{@p} &cYou can't craft while frozen!"
+ 
+on consume:
+	if {staffmode.%player%} is true:
+		cancel event
+		send "{@p} &cYou can't consume in staff mode!"
+	if {freezing.%player%} is true:
+		cancel event
+		send "{@p} &cYou can't consume while frozen!"
+ 
+on inventory click:
+	if {staffmode.%player%} is true:
+		cancel event
+		send "{@p} &cYou can't edit your inventory in staff mode!"
+	if {freezing.%player%} is true:
+		cancel event
+		send "{@p} &cYou can't edit your inventory while frozen!"
+ 
+ 
+on join:
+	set {staffmode.%player%} to false
+ 
+on right click with head:
+	if {staffmode.%player%} is true:
+		if player is holding a head named "&aStaff online":
+		make player execute command "/stafflist"
+ 
+on quit:
+	if {staffmode.%player%} is true:
+		set {staffmode.%player%} to false
+		cancel event
+	if {freezing.%player%} is true:
+		ban player because "&bDisconecting while frozen!"
+ 
+command /stafflist:
+	trigger:
+		loop all players:
+			loop-player has permission "Stafflist.sk"
+			add loop-player to {_online staff::*}
+ 
+		size of {_online staff::*} is 0:
+			message "{@p} &3No staff online."
+		else:
+			message "{@p} &e&lOnline staff: &7%{_online staff::*}%"
